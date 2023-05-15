@@ -66,7 +66,7 @@ class DataProcessor:
         Input : List[str]
         Output : Dict
 
-        This method should use the generator method assigned to seld.data_reader and return aggregate
+        This method should use the generator method assigned to self.data_reader and return aggregate
         of the column mentioned in the `column_name` variable
 
         For example if the `column_name` -> 'TotalPrice' and the file format is as below:
@@ -79,5 +79,20 @@ class DataProcessor:
         aggregate should be 105.58
         """
         ######################################## YOUR CODE HERE ##################################################
+        # Get generator from data_reader
+        data_reader_gen = (row for row in self.data_reader)
 
+        # Skip first row as it is the column name
+        _ = next(data_reader_gen)
+
+        # Initialize aggregate
+        aggregate = 0
+
+        # Add up the values in the specified column
+        for row in tqdm(data_reader_gen):
+            val = self.to_float(row[column_name])
+            if val is not None:
+                aggregate += val
+
+        return aggregate
         ######################################## YOUR CODE HERE ##################################################
