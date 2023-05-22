@@ -40,11 +40,7 @@ async def get() -> Dict:
     should send a JSON response in the below format:
     {"status": "ok"}
     """
-
-    ######################################## YOUR CODE HERE ##################################################
-
-    ######################################## YOUR CODE HERE ##################################################
-
+    return {"status": "ok"}
 
 # Below endpoint renders an HTML page
 @app.get("/")
@@ -52,10 +48,9 @@ async def get() -> HTMLResponse:
     """
     should render the HTML file - index.html when a user goes to http://127.0.0.1:8000/
     """
-    ######################################## YOUR CODE HERE ##################################################
-
-    ######################################## YOUR CODE HERE ##################################################
-
+    with open("index.html") as file:
+        html_content = file.read()
+    return HTMLResponse(content=html_content, status_code=200)
 
 # Below endpoint to get the initial data
 @app.get("/processes")
@@ -63,6 +58,13 @@ async def get() -> List[ProcessStatus]:
     """
     Get all the records from the process table and return it using the pydantic model ProcessStatus
     """
-    ######################################## YOUR CODE HERE ##################################################
+    db = DB() 
+    data = []
+    cursor = db._connection.execute(f"SELECT * FROM {db._table_name}")
+    columns = [col[0] for col in cursor.description]
 
-    ######################################## YOUR CODE HERE ##################################################
+    for row in cursor.fetchall():
+        row_dict = dict(zip(columns, row))
+        data.append(row_dict)
+
+    return data
