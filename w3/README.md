@@ -11,7 +11,7 @@ PYTHONPATH=../ pytest test.py
 # Run the data processing code
 ````
 # Run on `test` data
-PYTHONPATH=../ python main.py --type tst
+ v
 
 # Run on `small` data
 PYTHONPATH=../ python main.py --type sml
